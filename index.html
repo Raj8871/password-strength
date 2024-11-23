@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Password Strength Checker</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Check Your Password Strength</h2>
+            <label for="password">Enter your password:</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <div class="strength-wrapper">
+                <div id="strength-indicator" class="strength"></div>
+            </div>
+            <ul id="suggestions"></ul>
+        </div>
+    </main>
+  <br> <br><br><br><br><br><br><br><br>
+   <!-- Feature paragraph moved to the bottom -->
+    <section id="features">
+        <div class="feature-description">
+            <h3 class="rajan">Feature</h3>
+            <p>
+                This Password Strength Checker helps you evaluate how secure your password is. 
+                It checks for various factors like length, use of numbers, special characters, 
+                and both uppercase and lowercase letters. Based on the strength of your password, 
+                real-time feedback will be provided with suggestions for improvement. 
+                Keep your password strong to ensure your online security!
+            </p>
+        </div>
+    </section>
+    <footer>
+        <p>© 2024 Password Checker | <a href="#privacy">Privacy Policy</a> | <a href="#contact">Contact Us</a></p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a2e;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #0f3460;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.5em;
+    color: #e94560;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    color: #e94560;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #16213e;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #e94560;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #888;
+    background-color: #444;
+    color: #fff;
+}
+
+.strength-wrapper {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.strength {
+    height: 100%;
+    width: 0;
+    transition: width 0.4s ease-in-out;
+}
+
+.weak {
+    background-color: red;
+    width: 33%;
+}
+
+.medium {
+    background-color: orange;
+    width: 66%;
+}
+
+.strong {
+    background-color: green;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 20px;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #0f3460;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+footer a {
+    color: #e94560;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+/* Feature Section */
+#features {
+    padding: 20px;
+    background-color: #16213e;
+    color: #bbb;
+    text-align: center;
+}
+
+.feature-description h3 {
+    font-size: 30px;
+    color: #e94560;
+    margin-bottom: 15px;
+}
+
+.feature-description p {
+    line-height: 1.6;
+}
+
+</style>
+
+<script>
+const passwordInput = document.getElementById("password");
+const strengthIndicator = document.getElementById("strength-indicator");
+const suggestionsList = document.getElementById("suggestions");
+
+const checkPasswordStrength = (password) => {
+    const suggestions = [];
+    let strength = 0;
+
+    // Check for length
+    if (password.length >= 8) {
+        strength++;
+    } else {
+        suggestions.push("Password should be at least 8 characters long.");
+    }
+
+    // Check for numbers
+    if (/\d/.test(password)) {
+        strength++;
+    } else {
+        suggestions.push("Include at least one number.");
+    }
+
+    // Check for lowercase letters
+    if (/[a-z]/.test(password)) {
+        strength++;
+    } else {
+        suggestions.push("Include at least one lowercase letter.");
+    }
+
+    // Check for uppercase letters
+    if (/[A-Z]/.test(password)) {
+        strength++;
+    } else {
+        suggestions.push("Include at least one uppercase letter.");
+    }
+
+    // Check for special characters
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        strength++;
+    } else {
+        suggestions.push("Include at least one special character.");
+    }
+
+    // Evaluate strength
+    if (strength === 5) {
+        strengthIndicator.className = "strength strong";
+    } else if (strength >= 3) {
+        strengthIndicator.className = "strength medium";
+    } else {
+        strengthIndicator.className = "strength weak";
+    }
+
+    // Update suggestions
+    suggestionsList.innerHTML = "";
+    suggestions.forEach(suggestion => {
+        const li = document.createElement("li");
+        li.textContent = suggestion;
+        suggestionsList.appendChild(li);
+    });
+};
+
+passwordInput.addEventListener("input", (e) => {
+    checkPasswordStrength(e.target.value);
+});
+(function () {
+  "use strict";
+
+  // Prevent XSS Attacks by sanitizing user inputs
+  function sanitizeInput(input) {
+    const tempDiv = document.createElement("div");
+    tempDiv.textContent = input;
+    return tempDiv.innerHTML;
+  }
+
+  // Example: Sanitize all input fields automatically
+  const inputs = document.querySelectorAll("input, textarea");
+  inputs.forEach(input => {
+    input.addEventListener("input", (e) => {
+      e.target.value = sanitizeInput(e.target.value);
+    });
+  });
+
+  // Disable right-click to prevent unauthorized access
+  document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    console.warn("Right-click is disabled to enhance security.");
+  });
+
+  // Prevent debugging tools (like F12/DevTools)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+      e.preventDefault();
+      console.warn("Developer tools are disabled.");
+    }
+  });
+
+  // Monitor DOM changes for suspicious activity
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === 1 && node.tagName === "SCRIPT") {
+            console.error("Unauthorized script detected and removed!");
+            node.remove();
+          }
+        });
+      }
+    });
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Secure cookies
+  document.cookie = "SecureCookie=SecureValue; Secure; HttpOnly; SameSite=Strict";
+
+  console.log("Basic security measures are active on this website.");
+})();
+
+</script>
